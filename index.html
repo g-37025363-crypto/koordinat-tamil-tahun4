@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>மகிழ்ச்சியுடன் கணிதம் கற்போம்! — ஆயத்தொலைவுகள்</title>
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f3f8ff,#101a2b); --surface: light-dark(#ffffff,#1b2940); --ink: light-dark(#17233b,#f3f6ff); --muted: light-dark(#52627c,#b8c5db); --line: light-dark(#d9e4f4,#3a4b66); --blue: light-dark(#315eea,#86a4ff); --green: light-dark(#087f5b,#5ee0b2); --yellow: light-dark(#fff2bf,#4e421d); }
+* { box-sizing:border-box; }
+body { margin:0; font-family: "Noto Sans Tamil", "Latha", "Arial", sans-serif; background:var(--bg); color:var(--ink); }
+#app { min-height:100vh; width:100%; background:var(--bg); padding:22px 16px 36px; }
+.wrap { max-width:940px; margin:0 auto; }
+.hero { background:linear-gradient(135deg,#315eea,#7857d8 58%,#d75aa5); color:white; border-radius:24px; padding:28px 24px; position:relative; overflow:hidden; box-shadow:0 12px 30px #273d7524; }
+.hero:after { content:'✦'; position:absolute; font-size:150px; right:22px; top:-42px; opacity:.16; }
+.kicker { font-size:13px; letter-spacing:.08em; opacity:.9; }
+h1 { font-size:clamp(27px,5vw,42px); line-height:1.25; margin:8px 0; }
+.hero p { margin:8px 0 0; font-size:17px; }
+.pills { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+.pill { border:1px solid #ffffff65; background:#ffffff20; border-radius:999px; padding:7px 12px; font-size:14px; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0; }
+.stat,.panel { background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:16px; }
+.stat small { display:block; color:var(--muted); font-size:13px; }
+.stat strong { display:block; font-size:25px; margin-top:4px; }
+.panel { margin-top:14px; }
+h2 { margin:0 0 8px; font-size:22px; }
+.sub { color:var(--muted); margin:0 0 14px; line-height:1.55; }
+.grid-layout { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:16px; align-items:start; }
+.gridboard { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:5px; max-width:440px; margin:10px auto; }
+.cell { aspect-ratio:1; border:1px solid var(--line); border-radius:9px; background:var(--bg); color:var(--ink); font-size:clamp(12px,2.6vw,17px); font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
+.cell.axis { background:var(--yellow); }
+.cell.selected { background:var(--blue); color:white; border-color:var(--blue); }
+.cell.correct { background:var(--green); color:#062e25; }
+.cell.wrong { background:#e76c78; color:white; }
+.cell:focus-visible,button:focus-visible { outline:3px solid #f0a72f; outline-offset:2px; }
+.axis-note { display:flex; justify-content:space-between; color:var(--muted); font-size:13px; margin:0 2px; }
+.answers { display:grid; grid-template-columns:1fr; gap:9px; }
+.answer { text-align:left; padding:12px 14px; background:var(--bg); color:var(--ink); border:1px solid var(--line); border-radius:12px; font:inherit; cursor:pointer; }
+.answer:hover { border-color:var(--blue); }
+.answer.chosen { border:2px solid var(--blue); background:light-dark(#edf1ff,#26395f); }
+.answer.right { border:2px solid var(--green); }
+.answer.incorrect { border:2px solid #e76c78; }
+.feedback { min-height:48px; margin-top:12px; padding:12px; border-radius:12px; background:var(--bg); color:var(--muted); line-height:1.5; }
+button.primary,button.secondary { font:inherit; font-weight:700; border:0; border-radius:12px; padding:12px 17px; cursor:pointer; }
+button.primary { background:var(--blue); color:white; }
+button.secondary { background:var(--bg); color:var(--ink); border:1px solid var(--line); }
+.actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:12px; }
+.progress { height:9px; border-radius:99px; background:var(--line); overflow:hidden; margin:10px 0 16px; }
+.progress span { display:block; height:100%; width:0%; background:linear-gradient(90deg,#315eea,#d75aa5); transition:width .25s; }
+.treasure { font-size:30px; text-align:center; min-height:44px; }
+.hidden { display:none; }
+footer { text-align:center; color:var(--muted); font-size:12px; padding:22px 0 0; }
+@media(max-width:700px) { #app{padding:12px 10px 24px}.hero{padding:22px 18px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.grid-layout{grid-template-columns:1fr}.panel{padding:14px} }
+</style>
+</head>
+<body>
+<div id="app">
+<div class="wrap">
+<header class="hero">
+<div class="kicker">தரம் 4 • கணிதம் • விளையாட்டுப் பயிற்சி</div>
+<h1>🗺️ மகிழ்ச்சியுடன் கணிதம் கற்போம்!</h1>
+<p>ஆயத்தொலைவு புதையல் வேட்டை</p>
+<div class="pills"><span class="pill">🎯 ஆயத்தொலைவைக் கண்டுபிடி</span><span class="pill">⭐ மதிப்பெண் பெறு</span><span class="pill">🏆 புதையலை வெல்</span></div>
+</header>
+<section class="stats" aria-label="விளையாட்டு நிலை">
+<div class="stat"><small>மதிப்பெண்</small><strong id="score">0 / 10</strong></div>
+<div class="stat"><small>முன்னேற்றம்</small><strong id="progressText">0%</strong></div>
+<div class="stat"><small>சுற்று</small><strong id="roundText">1 / 10</strong></div>
+</section>
+<div class="progress"><span id="progressBar"></span></div>
+<section class="panel" id="quizPanel">
+<h2>🎮 பகுதி 1: சரியான விடையைத் தேர்ந்தெடு</h2>
+<p class="sub">கேள்வியை வாசித்து, சரியான விடையை அழுத்தவும். ஒவ்வொரு சரியான விடைக்கும் 1 மதிப்பெண்!</p>
+<div id="question" style="font-size:19px;font-weight:700;line-height:1.55;margin:10px 0 14px"></div>
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback" aria-live="polite">விளையாட்டைத் தொடங்குங்கள்! உங்களால் முடியும்! 💪</div>
+<div class="actions"><button class="primary" id="checkBtn">விடையைச் சரிபார்</button><button class="secondary" id="nextBtn" disabled>அடுத்த கேள்வி →</button></div>
+</section>
+<section class="panel" id="treasurePanel">
+<h2>💎 பகுதி 2: புதையலைக் கண்டுபிடி</h2>
+<p class="sub">கட்டத்தில் கொடுக்கப்பட்டுள்ள ஆயத்தொலைவைத் தேர்ந்தெடுக்கவும். முதலில் <b>x</b> அச்சில் நகர்ந்து, பிறகு <b>y</b> அச்சில் மேலே செல்லவும்.</p>
+<div class="treasure" id="treasureIcon">🧭</div>
+<div id="treasurePrompt" style="text-align:center;font-size:18px;font-weight:700">புதையல் இருக்கும் புள்ளி (2, 3). அதைத் தேர்ந்தெடு!</div>
+<div class="gridboard" id="gridboard" aria-label="ஆயத்தொலைவு கட்டம்"></div>
+<div class="axis-note"><span>← x அச்சு →</span><span>y அச்சு ↑</span></div>
+<div class="feedback" id="treasureFeedback" aria-live="polite">கட்டத்தில் சரியான புள்ளியை அழுத்தவும்.</div>
+<div class="actions"><button class="primary" id="treasureCheck">புள்ளியைச் சரிபார்</button><button class="secondary" id="treasureNext" disabled>அடுத்த புதையல் →</button></div>
+</section>
+<section class="panel hidden" id="finishPanel">
+<div style="text-align:center;font-size:54px">🏆</div>
+<h2 style="text-align:center">வாழ்த்துகள், கணித வீரரே!</h2>
+<p id="finalMessage" class="sub" style="text-align:center"></p>
+<div class="actions" style="justify-content:center"><button class="primary" id="restartBtn">மீண்டும் விளையாடு 🔄</button><button class="secondary" id="printBtn">அச்சிடு / PDF</button></div>
+</section>
+<footer>கற்றல் • சிந்தனை • முயற்சி • வெற்றி 🌟</footer>
+</div>
+</div>
+<script>
+const questions = [
+ {q:'ஆயத்தொலைவுகளின் தொடக்கப்புள்ளி எது?',a:['(1, 0)','(0, 0)','(0, 1)'],c:1,why:'சரியான விடை (0, 0). x மற்றும் y அச்சுகள் சந்திக்கும் இடமே தொடக்கப்புள்ளி.'},
+ {q:'கிடைமட்ட அச்சு எது?',a:['x அச்சு','y அச்சு','தொடக்கப்புள்ளி'],c:0,why:'x அச்சு கிடைமட்டமாக இருக்கும்.'},
+ {q:'புள்ளி A (3, 2) இல் x ஆயத்தொலைவு எது?',a:['2','3','5'],c:1,why:'ஆயத்தொலைவில் முதலில் x மதிப்பு வரும். எனவே x = 3.'},
+ {q:'புள்ளி B (4, 5) இல் y ஆயத்தொலைவு எது?',a:['4','9','5'],c:2,why:'இரண்டாவது எண் y ஆயத்தொலைவு. எனவே y = 5.'},
+ {q:'x = 2, y = 4 என்றால் சரியான ஆயத்தொலைவு எது?',a:['(4, 2)','(2, 4)','(2, 2)'],c:1,why:'எப்போதும் முதலில் x, அடுத்து y எழுத வேண்டும்: (2, 4).'},
+ {q:'புள்ளி (5, 1) இல் x மதிப்பு எவ்வளவு?',a:['1','5','6'],c:1,why:'முதல் எண் 5 என்பதால் x = 5.'},
+ {q:'புள்ளி (1, 5) இல் y மதிப்பு எவ்வளவு?',a:['1','4','5'],c:2,why:'இரண்டாவது எண் 5 என்பதால் y = 5.'},
+ {q:'தொடக்கப்புள்ளியிலிருந்து (3, 0) செல்ல, x அச்சில் எத்தனை அலகுகள் நகர வேண்டும்?',a:['0','3','இரண்டு'],c:1,why:'x மதிப்பு 3. ஆகவே வலப்புறம் 3 அலகுகள் நகர வேண்டும்.'},
+ {q:'(0, 4) என்ற புள்ளி எந்த அச்சில் உள்ளது?',a:['x அச்சு','y அச்சு','எந்த அச்சிலும் இல்லை'],c:1,why:'x = 0 என்பதால் இந்தப் புள்ளி y அச்சில் உள்ளது.'},
+ {q:'(2, 3) மற்றும் (3, 2) ஆகியவை ஒரே புள்ளியா?',a:['ஆம்','இல்லை','எப்போதும்'],c:1,why:'இல்லை. x, y மதிப்புகளின் வரிசை மாறினால் புள்ளியும் மாறும்.'}
+];
+const treasures=[{x:2,y:3},{x:4,y:1},{x:1,y:5},{x:5,y:2},{x:3,y:4}];
+let qi=0,score=0,answered=false,chosen=-1,ti=0,tchosen=null,tdone=false,treasureScore=0;
+const $=id=>document.getElementById(id);
+function updateStats(){let total=10+treasures.length;let done=qi+(answered?1:0);$('score').textContent=score+' / 10';$('progressText').textContent=Math.round((done/10)*100)+'%';$('progressBar').style.width=Math.min(100,done*10)+'%';$('roundText').textContent=Math.min(qi+1,10)+' / 10';}
+function renderQuestion(){answered=false;chosen=-1;$('question').textContent=(qi+1)+'. '+questions[qi].q;$('answers').innerHTML='';questions[qi].a.forEach((t,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+t;b.onclick=()=>{if(answered)return;chosen=i;document.querySelectorAll('.answer').forEach((el,j)=>el.classList.toggle('chosen',j===i));};$('answers').appendChild(b);});$('feedback').textContent='ஒரு விடையைத் தேர்ந்தெடுத்து “விடையைச் சரிபார்” என்பதை அழுத்தவும்.';$('checkBtn').disabled=false;$('nextBtn').disabled=true;$('nextBtn').textContent=qi===questions.length-1?'முடிவைப் பார் →':'அடுத்த கேள்வி →';updateStats();}
+$('checkBtn').onclick=()=>{if(chosen<0){$('feedback').textContent='முதலில் ஒரு விடையைத் தேர்ந்தெடுக்கவும்!';return;}answered=true;let q=questions[qi];document.querySelectorAll('.answer').forEach((el,i)=>{if(i===q.c)el.classList.add('right');else if(i===chosen)el.classList.add('incorrect');});if(chosen===q.c){score++;$('feedback').textContent='🎉 சரியான விடை! '+q.why;}else{$('feedback').textContent='பரவாயில்லை! '+q.why;}$('checkBtn').disabled=true;$('nextBtn').disabled=false;updateStats();};
+$('nextBtn').onclick=()=>{if(qi<questions.length-1){qi++;renderQuestion();}else{$('treasurePanel').scrollIntoView({behavior:'smooth',block:'start'});$('feedback').textContent='முதல் பகுதி முடிந்தது! இப்போது புதையல் வேட்டையை விளையாடுங்கள்.';$('nextBtn').disabled=true;$('nextBtn').textContent='முதல் பகுதி முடிந்தது ✓';}updateStats();};
+function renderGrid(){let board=$('gridboard');board.innerHTML='';for(let y=5;y>=0;y--){for(let x=0;x<=5;x++){let b=document.createElement('button');b.className='cell'+((x===0||y===0)?' axis':'');b.setAttribute('aria-label','('+x+', '+y+')');b.textContent=x===0&&y===0?'0':x===0?'y'+y:y===0?'x'+x:'';b.dataset.x=x;b.dataset.y=y;b.onclick=()=>{if(tdone)return;tchosen={x,y};document.querySelectorAll('.cell').forEach(el=>el.classList.toggle('selected',el===b));$('treasureFeedback').textContent='நீங்கள் தேர்ந்தெடுத்தது ('+x+', '+y+'). சரிபார்க்கத் தயாரா?';};board.appendChild(b);}}}
+function renderTreasure(){tdone=false;tchosen=null;let t=treasures[ti];$('treasurePrompt').textContent='புதையல் இருக்கும் புள்ளி ('+t.x+', '+t.y+'). அதைக் கண்டுபிடி!';$('treasureIcon').textContent='🧭';$('treasureFeedback').textContent='கட்டத்தில் சரியான புள்ளியை அழுத்தவும்.';$('treasureCheck').disabled=false;$('treasureNext').disabled=true;renderGrid();}
+$('treasureCheck').onclick=()=>{if(!tchosen){$('treasureFeedback').textContent='முதலில் கட்டத்தில் ஒரு புள்ளியைத் தேர்ந்தெடுக்கவும்!';return;}tdone=true;let t=treasures[ti],correct=tchosen.x===t.x&&tchosen.y===t.y;document.querySelectorAll('.cell').forEach(el=>{let x=+el.dataset.x,y=+el.dataset.y;if(x===t.x&&y===t.y)el.classList.add('correct');else if(x===tchosen.x&&y===tchosen.y&&!correct)el.classList.add('wrong');});if(correct){treasureScore++;$('treasureIcon').textContent='💎';$('treasureFeedback').textContent='அருமை! புதையலைக் கண்டுபிடித்துவிட்டீர்கள்! ⭐';}else{$('treasureIcon').textContent='🗺️';$('treasureFeedback').textContent='இன்னும் முயற்சி செய்யலாம். சரியான புள்ளி ('+t.x+', '+t.y+').';}$('treasureCheck').disabled=true;$('treasureNext').disabled=false;$('treasureNext').textContent=ti===treasures.length-1?'முடிவைப் பார் 🏆':'அடுத்த புதையல் →';};
+$('treasureNext').onclick=()=>{if(ti<treasures.length-1){ti++;renderTreasure();}else{finishGame();}};
+function finishGame(){let total=score+treasureScore;let max=15;$('finishPanel').classList.remove('hidden');$('finalMessage').textContent='உங்கள் மொத்த மதிப்பெண்: '+total+' / '+max+'. வினாக்கள்: '+score+'/10. புதையல்கள்: '+treasureScore+'/5. '+(total>=13?'அற்புதம்! நீங்கள் ஆயத்தொலைவு நிபுணர்! 🌟':total>=9?'நல்ல முயற்சி! இன்னும் பயிற்சி செய்தால் சிறப்பாக முடியும்! 💪':'மீண்டும் முயற்சி செய்யுங்கள். பயிற்சியால் முன்னேறலாம்! 😊');$('finishPanel').scrollIntoView({behavior:'smooth'});$('score').textContent=total+' / 15';$('progressText').textContent='100%';$('progressBar').style.width='100%';$('roundText').textContent='முடிந்தது ✓';}
+$('restartBtn').onclick=()=>{qi=0;score=0;answered=false;chosen=-1;ti=0;tchosen=null;tdone=false;treasureScore=0;$('finishPanel').classList.add('hidden');renderQuestion();renderTreasure();window.scrollTo({top:0,behavior:'smooth'});};$('printBtn').onclick=()=>window.print();
+renderQuestion();renderTreasure();
+</script>
+</body>
+</html>
